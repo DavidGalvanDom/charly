@@ -1,7 +1,21 @@
 
-<div>
-    <chr-nav ></chr-nav>
-    <div class="conteiner">
-        <router-outlet></router-outlet>
-    </div>
+<!--
+<ng-sidebar-container>
+ 
+        
+        <ng-sidebar [(opened)]="_opened">
+          <p>Sidebar contents</p>
+        </ng-sidebar>
+   
+        
+        <div ng-sidebar-content>
+          <button (click)="_toggleSidebar()">Toggle sidebar</button>
+        </div>
+
+</ng-sidebar-container>
+-->
+<chr-nav [hidden]="!auth.isLoggedInUser" ></chr-nav>
+<div class="container">
+        <button (click)="_toggleSidebar()">Toggle sidebar</button>
+    <router-outlet></router-outlet>
 </div>

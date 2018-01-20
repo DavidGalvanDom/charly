@@ -20,7 +20,8 @@
       "prefix": "chr",
       "styles": [
         "styles.scss",
-        "bootstrap.css"
+        "bootstrap.css",
+        "../node_modules/font-awesome/css/font-awesome.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

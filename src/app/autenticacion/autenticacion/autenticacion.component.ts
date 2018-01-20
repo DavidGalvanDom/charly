@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Errors } from '../../shared';
+import { AuthService } from '../../shared/service/auth.service';
 
 @Component({
   selector: 'chr-autenticacion',
@@ -19,27 +20,19 @@ export class AutenticacionComponent implements OnInit {
 
   constructor( private route: ActivatedRoute,
     private router: Router,
+    private auth: AuthService,
     private fb: FormBuilder) { 
 
       // use FormBuilder to create a form group
       this.authForm = this.fb.group({
-        'email': ['', Validators.required],
-        'password': ['', Validators.required]
+        'usuario': ['', Validators.required],
+        'contrasena': ['', Validators.required]
       });
 
   }
 
-    ngOnInit() {
-    this.route.url.subscribe(data => {
-      // Get the last piece of the URL (it's either 'login' or 'register')
-      this.authType = data[data.length - 1].path;
-      // Set a title for the page accordingly
-      this.title = (this.authType === 'login') ? 'Sign in' : 'Sign up';
-      // add form control for username if this is the register page
-      if (this.authType === 'register') {
-        this.authForm.addControl('username', new FormControl());
-      }
-    });
+  ngOnInit() {
+    this.auth.logOut(); 
   }
 
   submitForm() {
@@ -47,6 +40,12 @@ export class AutenticacionComponent implements OnInit {
     this.errors = new Errors();
 
     const credentials = this.authForm.value;
+
+    console.log(credentials);
+    this.auth.redirectUrl = this.auth.redirectUrl === "login" ? "inicio": this.auth.redirectUrl;
+    this.auth.loggedIn(true,"mytoken","1",this.authForm.get('usuario').value);
+    this.router.navigate([this.auth.redirectUrl]);
+    
    /* this.userService
     .attemptAuth(this.authType, credentials)
     .subscribe(
